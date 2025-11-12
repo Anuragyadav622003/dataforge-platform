@@ -16,7 +16,7 @@ async function bootstrap() {
     origin: ['http://localhost:3001', 'http://localhost:3000'],
     credentials: true,
   });
-
+ 
   const config = new DocumentBuilder()
     .setTitle('CRUD Platform API')
     .setDescription('Auto-generated CRUD + RBAC Platform')
