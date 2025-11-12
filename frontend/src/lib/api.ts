@@ -5,6 +5,7 @@ const API_BASE_URL = 'https://dataforge-platform.vercel.app'    // process.env.N
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
+  withCredentials: true, // 🔥 This enables CORS with cookies/auth headers
 });
 
 // Request interceptor to add auth token

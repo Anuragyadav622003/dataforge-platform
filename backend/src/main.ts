@@ -12,11 +12,16 @@ async function bootstrap() {
     forbidNonWhitelisted: true,
   }));
   
-app.enableCors({
-  origin:'https://dataforge-platform-c2tj-ndrqzpugz-anuragyadav622003s-projects.vercel.app/login',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-  allowedHeaders: 'Content-Type, Authorization, X-Requested-With',
-});
+  app.enableCors({
+    origin: [
+      '*',
+      'http://localhost:3001',
+      'http://localhost:3000',
+    ],
+    credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Authorization, X-Requested-With',
+  });
 
  
   const config = new DocumentBuilder()
