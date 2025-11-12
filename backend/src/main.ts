@@ -13,7 +13,7 @@ async function bootstrap() {
   }));
   
 app.enableCors({
-  origin:'https://dataforge-platform-c2tj.vercel.app/',
+  origin:'https://dataforge-platform-c2tj-ndrqzpugz-anuragyadav622003s-projects.vercel.app/login',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   allowedHeaders: 'Content-Type, Authorization, X-Requested-With',
 });
