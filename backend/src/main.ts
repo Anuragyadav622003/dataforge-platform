@@ -14,7 +14,7 @@ async function bootstrap() {
   
   app.enableCors({
     origin: [
-      '*',
+      'https://dataforge-platform-c2tj.vercel.app',
       'http://localhost:3001',
       'http://localhost:3000',
     ],
