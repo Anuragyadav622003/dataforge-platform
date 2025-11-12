@@ -3,7 +3,8 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@ne
 import { DynamicModelsService } from './dynamic-models.service';
 import { RBACGuard } from '../shared/guards/rbac.guard';
 import { Permission } from '../shared/decorators/permission.decorator';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+
 
 @ApiTags('Dynamic Models')
 @ApiBearerAuth()
