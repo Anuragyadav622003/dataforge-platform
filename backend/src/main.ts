@@ -12,26 +12,11 @@ async function bootstrap() {
     forbidNonWhitelisted: true,
   }));
   
-//  app.enableCors({
-//   origin: [
-//     'https://dataforge-platform-c2tj.vercel.app',
-//     'http://localhost:3001'
-//   ],
-//   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-//   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-//   credentials: true,
-//   preflightContinue: false,
-//   optionsSuccessStatus: 204,
-// });
 app.enableCors({
-  origin: (origin, callback) => {
-    callback(null, true); // dynamically allow any origin
-  },
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['*'],
+  origin: true,
   credentials: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
 });
-
  
   const config = new DocumentBuilder()
     .setTitle('CRUD Platform API')
