@@ -18,6 +18,7 @@ async function bootstrap() {
   app.enableCors({
     origin: (origin, callback) => {
       // Allow requests with no origin (like Postman, curl)
+      console.log('cors origin:',origin)
       if (!origin) return callback(null, true);
 
       // Allow all subdomains of your Vercel frontend
@@ -31,9 +32,6 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true, // required if sending cookies/auth headers
   });
-
-
-
 
 
  
