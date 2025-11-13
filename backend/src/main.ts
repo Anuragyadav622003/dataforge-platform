@@ -12,12 +12,10 @@ async function bootstrap() {
     forbidNonWhitelisted: true,
   }));
   
-   app.enableCors({
-    origin: [
-      'https://dataforge-platform-c2tj.vercel.app', 
-    ],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  });
+ app.enableCors({
+  origin: true, // dynamically mirrors request origin
+  credentials: true,
+});
   const config = new DocumentBuilder()
     .setTitle('CRUD Platform API')
     .setDescription('Auto-generated CRUD + RBAC Platform')
