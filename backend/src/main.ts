@@ -14,8 +14,33 @@ async function bootstrap() {
   
   
   
- // Enable CORS
-  app.enableCors();
+  // ✅ CORS configuration (no trailing slash)
+  const allowedOrigins = [
+    'https://dataforge-platform-c2tj.vercel.app',
+    'http://localhost:3000',
+  ];
+
+  app.enableCors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // allow tools like Postman
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.log('❌ Blocked by CORS:', origin);
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-Requested-With',
+      'Accept',
+      'Origin',
+    ],
+    exposedHeaders: ['Authorization', 'Set-Cookie'],
+  });
 
 
  
