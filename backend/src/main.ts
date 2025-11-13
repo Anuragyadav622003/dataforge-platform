@@ -15,23 +15,7 @@ async function bootstrap() {
   
   
  // Enable CORS
-  app.enableCors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like Postman, curl)
-      console.log('cors origin:',origin)
-      if (!origin) return callback(null, true);
-
-      // Allow all subdomains of your Vercel frontend
-      const allowedOriginPattern = /^https:\/\/dataforge-platform(-[a-z0-9]+)?\.vercel\.app$/;
-      if (allowedOriginPattern.test(origin)) {
-        callback(null, true); // allow this origin
-      } else {
-        callback(new Error('Not allowed by CORS')); // block others
-      }
-    },
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials: true, // required if sending cookies/auth headers
-  });
+  app.enableCors();
 
 
  
