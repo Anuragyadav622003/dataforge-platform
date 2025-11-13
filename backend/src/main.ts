@@ -2,6 +2,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import cors from 'cors'
 import { AppModule } from './app.module';
 
 
@@ -12,8 +13,10 @@ async function bootstrap() {
     whitelist: true,
     forbidNonWhitelisted: true,
   }));
-  app.enableCors();
-  //cors
+ 
+app.use(cors({
+  origin: 'https://dataforge-platform-c2tj.vercel.app'
+}));
 
   const config = new DocumentBuilder()
     .setTitle('CRUD Platform API')
