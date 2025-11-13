@@ -12,22 +12,25 @@ async function bootstrap() {
     forbidNonWhitelisted: true,
   }));
   
+  // ULTRA-SIMPLE CORS - Remove all complexity
   app.enableCors({
-    origin: [
-      'https://dataforge-platform-c2tj.vercel.app',
-      'http://localhost:3000',
-      'http://localhost:3001',
-    ],
+    origin: 'https://dataforge-platform-c2tj.vercel.app',
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: [
-      'Origin',
-      'X-Requested-With',
-      'Content-Type',
-      'Accept',
-      'Authorization',
-      'Access-Control-Allow-Origin',
-    ],
+  });
+
+  // Add global middleware to handle CORS headers manually
+  app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'https://dataforge-platform-c2tj.vercel.app');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-CSRF-Token');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+      res.sendStatus(200);
+    } else {
+      next();
+    }
   });
  
   const config = new DocumentBuilder()
