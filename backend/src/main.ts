@@ -1,39 +1,66 @@
-// backend/src/main.ts
+// // backend/src/main.ts
+// import { NestFactory } from '@nestjs/core';
+// import { ValidationPipe } from '@nestjs/common';
+// import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+// import cors from 'cors'
+// import { AppModule } from './app.module';
+
+
+// async function bootstrap() {
+//   const app = await NestFactory.create(AppModule);
+  
+//   app.useGlobalPipes(new ValidationPipe({
+//     whitelist: true,
+//     forbidNonWhitelisted: true,
+//   }));
+
+//     app.enableCors({
+//     origin: ['https://dataforge-platform-c2tj.vercel.app'],
+//     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     credentials: true,
+//   });
+
+//   const config = new DocumentBuilder()
+//     .setTitle('CRUD Platform API')
+//     .setDescription('Auto-generated CRUD + RBAC Platform')
+//     .setVersion('1.0')
+//     .addBearerAuth()
+//     .build();
+//   const document = SwaggerModule.createDocument(app, config);
+//   SwaggerModule.setup('api', app, document);
+
+//   const port = process.env.PORT || 3001;
+//   await app.listen(port);
+//   console.log(`🚀 Server running on http://localhost:${port}`);
+//   console.log(`📚 API Documentation: http://localhost:${port}/api`);
+// }
+
+// bootstrap();
+
+
+
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import cors from 'cors'
 import { AppModule } from './app.module';
 
-
-async function bootstrap() {
+export async function createApp() {
   const app = await NestFactory.create(AppModule);
   
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-    forbidNonWhitelisted: true,
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
 
-    app.enableCors({
+  app.enableCors({
     origin: ['https://dataforge-platform-c2tj.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   });
 
-  const config = new DocumentBuilder()
-    .setTitle('CRUD Platform API')
-    .setDescription('Auto-generated CRUD + RBAC Platform')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
-
-  const port = process.env.PORT || 3001;
-  await app.listen(port);
-  console.log(`🚀 Server running on http://localhost:${port}`);
-  console.log(`📚 API Documentation: http://localhost:${port}/api`);
+  await app.init();
+  return app;
 }
-
-bootstrap();
