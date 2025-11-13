@@ -116,36 +116,20 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
     forbidNonWhitelisted: true,
-    transform: true, // Add this to transform payloads to DTO instances
+    transform: true,
   }));
 
-  // Enhanced CORS configuration
+  // Simplified CORS configuration
   const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:3001',
-    'http://localhost:3002', // Common Next.js dev port
+    'http://localhost:3002',
     'https://dataforge-platform-c2tj.vercel.app',
-    'https://dataforge-platform.vercel.app', // Your backend itself
+    'https://dataforge-platform.vercel.app',
   ];
-
-  // Improved Vercel preview deployment regex
-  const vercelPreviewRegex = /https:\/\/.*-dataforge-platform.*\.vercel\.app/;
   
   app.enableCors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl requests, server-side requests)
-      if (!origin) return callback(null, true);
-      
-      // Check against allowed origins
-      if (allowedOrigins.includes(origin) || vercelPreviewRegex.test(origin)) {
-        console.log('✅ CORS allowed for origin:', origin);
-        return callback(null, true);
-      }
-      
-      // Log blocked origins for debugging
-      console.log('❌ CORS blocked for origin:', origin);
-      return callback(new Error(`Not allowed by CORS. Origin: ${origin}`), false);
-    },
+    origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: [
@@ -154,22 +138,8 @@ async function bootstrap() {
       'Content-Type',
       'Accept',
       'Authorization',
-      'X-CSRF-Token',
-      'Access-Control-Allow-Headers',
-      'Access-Control-Request-Headers',
-      'Access-Control-Allow-Origin',
     ],
-    exposedHeaders: [
-      'Authorization',
-      'Set-Cookie',
-      'Access-Control-Allow-Origin',
-    ],
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
   });
-
-  // Add global prefix if needed
-  app.setGlobalPrefix('api'); // This makes all routes start with /api
 
   const config = new DocumentBuilder()
     .setTitle('CRUD Platform API')
@@ -178,13 +148,12 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document); // Changed from 'api' to 'docs' to avoid conflict
+  SwaggerModule.setup('api', app, document); // Keep as 'api'
 
   const port = process.env.PORT || 3001;
   await app.listen(port);
   console.log(`🚀 Server running on http://localhost:${port}`);
-  console.log(`📚 API Documentation: http://localhost:${port}/docs`);
-  console.log(`🌐 CORS enabled for origins:`, allowedOrigins);
+  console.log(`📚 API Documentation: http://localhost:${port}/api`);
 }
 
 bootstrap();
