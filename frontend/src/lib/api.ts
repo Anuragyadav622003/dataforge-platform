@@ -5,6 +5,10 @@ const API_BASE_URL  = "https://dataforge-platform.vercel.app";
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
+   withCredentials: false, 
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 // Request interceptor to add auth token
