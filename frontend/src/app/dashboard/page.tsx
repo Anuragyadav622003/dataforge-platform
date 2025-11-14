@@ -936,84 +936,78 @@ export default function Dashboard() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {filteredModelGroups[selectedModelGroup]?.map(
-                        (instance: any) => (
-                          <div
-                            key={instance.id}
-                            className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-2xl p-6 border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 group hover:scale-[1.02] backdrop-blur-sm relative"
-                          >
-                            {/* Delete Table Button */}
-                            {user?.role === "Admin" && (
-                              <button
-                                onClick={() =>
-                                  setTableToDelete({
-                                    modelName: selectedModelGroup,
-                                    tableName: instance.tableName,
-                                    tableId: instance.id,
-                                  })
-                                }
-                                className="absolute top-4 right-4 p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all duration-200 opacity-0 group-hover:opacity-100"
-                                title="Delete Table"
-                              >
-                                <Trash2 size={16} />
-                              </button>
-                            )}
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {filteredModelGroups[selectedModelGroup]?.map((instance: any) => (
+    <div
+      key={instance.id}
+      className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-2xl p-6 border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 group hover:scale-[1.02] backdrop-blur-sm relative"
+    >
+      {/* Delete Table Button - Always Visible */}
+      {user?.role === "Admin" && (
+        <button
+          onClick={() =>
+            setTableToDelete({
+              modelName: selectedModelGroup,
+              tableName: instance.tableName,
+              tableId: instance.id,
+            })
+          }
+          className="absolute top-5 right-4 p-2 text-red-400 hover:text-red-300 hover:bg-red-500/20 rounded-lg transition-all duration-200 z-10"
+          title="Delete Table"
+        >
+          <Trash2 size={16} />
+        </button>
+      )}
 
-                            <div className="flex items-start justify-between mb-4">
-                              <div>
-                                <h3 className="font-bold text-white text-lg group-hover:text-blue-400 transition-colors">
-                                  {instance.tableName}
-                                </h3>
-                                <p className="text-slate-400 text-sm mt-1 flex items-center gap-2">
-                                  <Calendar className="w-3 h-3" />
-                                  Created{" "}
-                                  {new Date(
-                                    instance.createdAt
-                                  ).toLocaleDateString()}
-                                </p>
-                              </div>
-                              <span className="bg-emerald-500/10 text-emerald-400 text-xs px-3 py-1 rounded-full border border-emerald-500/20">
-                                {instance.fields?.length || 0} fields
-                              </span>
-                            </div>
+      {/* Content with right padding to prevent overlap */}
+      <div className="pr-10">
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex-1 min-w-0">
+            <h3 className="font-bold text-white text-lg group-hover:text-blue-400 transition-colors truncate">
+              {instance.tableName}
+            </h3>
+            <p className="text-slate-400 text-sm mt-1 flex items-center gap-2">
+              <Calendar className="w-3 h-3" />
+              Created {new Date(instance.createdAt).toLocaleDateString()}
+            </p>
+          </div>
+          <span className="bg-emerald-500/10 text-emerald-400 text-xs px-3 py-1 rounded-full border border-emerald-500/20 flex-shrink-0 ml-2">
+            {instance.fields?.length || 0} fields
+          </span>
+        </div>
 
-                            <div className="space-y-3 mb-6">
-                              <div className="text-sm text-slate-300 flex items-center gap-2">
-                                <Layers className="w-3 h-3" />
-                                Fields Preview
-                              </div>
-                              <div className="flex flex-wrap gap-2">
-                                {instance.fields
-                                  ?.slice(0, 5)
-                                  .map((field: any) => (
-                                    <span
-                                      key={field.name}
-                                      className="text-xs bg-slate-700 text-slate-300 px-3 py-1.5 rounded-full border border-slate-600"
-                                    >
-                                      {field.name}
-                                    </span>
-                                  ))}
-                                {instance.fields?.length > 5 && (
-                                  <span className="text-xs bg-blue-500/10 text-blue-400 px-3 py-1.5 rounded-full border border-blue-500/20">
-                                    +{instance.fields.length - 5} more
-                                  </span>
-                                )}
-                              </div>
-                            </div>
+        <div className="space-y-3 mb-6">
+          <div className="text-sm text-slate-300 flex items-center gap-2">
+            <Layers className="w-3 h-3" />
+            Fields Preview
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {instance.fields?.slice(0, 5).map((field: any) => (
+              <span
+                key={field.name}
+                className="text-xs bg-slate-700 text-slate-300 px-3 py-1.5 rounded-full border border-slate-600"
+              >
+                {field.name}
+              </span>
+            ))}
+            {instance.fields?.length > 5 && (
+              <span className="text-xs bg-blue-500/10 text-blue-400 px-3 py-1.5 rounded-full border border-blue-500/20">
+                +{instance.fields.length - 5} more
+              </span>
+            )}
+          </div>
+        </div>
 
-                            <button
-                              onClick={() =>
-                                handleModelSelect(selectedModelGroup, instance)
-                              }
-                              className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 rounded-xl font-medium transition-all duration-200 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/35"
-                            >
-                              Manage Data
-                            </button>
-                          </div>
-                        )
-                      )}
-                    </div>
+        <button
+          onClick={() => handleModelSelect(selectedModelGroup, instance)}
+          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 rounded-xl font-medium transition-all duration-200 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/35"
+        >
+          Manage Data
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
                   </div>
                 )}
 
@@ -1525,7 +1519,7 @@ const Calendar = ({ className }: { className?: string }) => (
 
 //               {/* User Info */}
 //               <div className="p-4 bg-slate-800/50 rounded-xl border border-slate-700">
-//                 <div className="flex items-center gap-3">
+//                 <div className="flex items-center gap-3">Customer Instances
 //                   <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full flex items-center justify-center text-white font-semibold">
 //                     {user?.email?.charAt(0).toUpperCase()}
 //                   </div>
